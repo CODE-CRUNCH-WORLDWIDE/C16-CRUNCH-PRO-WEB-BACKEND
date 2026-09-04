@@ -11,6 +11,13 @@ Ten questions. Lectures closed.
 - C) `TextField` can store binary data; `CharField` cannot.
 - D) `CharField` is encrypted by default.
 
+<details>
+<summary>Answer</summary>
+
+**B** — `CharField` requires `max_length`. (It's also slightly different in SQL — varchar(N) vs TEXT — but the *requirement* is the discriminator.)
+
+</details>
+
 ---
 
 **Q2.** For currency values, you should use:
@@ -19,6 +26,13 @@ Ten questions. Lectures closed.
 - B) `DecimalField` with `max_digits` and `decimal_places`.
 - C) `IntegerField` storing cents.
 - D) Either B or C are defensible; never A.
+
+<details>
+<summary>Answer</summary>
+
+**D** — `DecimalField` is the textbook answer; `IntegerField` storing cents is also defensible and avoids floating-point issues entirely. Never `FloatField`.
+
+</details>
 
 ---
 
@@ -29,6 +43,13 @@ Ten questions. Lectures closed.
 - C) Set this row's FK to NULL.
 - D) Bypass Django entirely.
 
+<details>
+<summary>Answer</summary>
+
+**B** — Delete this row.
+
+</details>
+
 ---
 
 **Q4.** Iterating `Article.objects.all()` and accessing `article.author.name` for each issues how many SQL queries by default? (assume 100 articles)
@@ -37,6 +58,13 @@ Ten questions. Lectures closed.
 - B) 2
 - C) 100
 - D) 101
+
+<details>
+<summary>Answer</summary>
+
+**D** — 1 query to fetch articles + 100 to fetch each author = 101.
+
+</details>
 
 ---
 
@@ -47,6 +75,13 @@ Ten questions. Lectures closed.
 - C) `defer`
 - D) `only`
 
+<details>
+<summary>Answer</summary>
+
+**B** — `select_related` for FKs and one-to-ones; `prefetch_related` for M2M and reverse FKs.
+
+</details>
+
 ---
 
 **Q6.** `default=timezone.now()` (with parentheses) on a `DateTimeField` causes:
@@ -55,6 +90,13 @@ Ten questions. Lectures closed.
 - B) Every new row to get the same fixed time — whenever Django imported the model.
 - C) An exception at migration time.
 - D) A warning but otherwise works.
+
+<details>
+<summary>Answer</summary>
+
+**B** — `timezone.now()` evaluates ONCE at class-definition time. Pass `timezone.now` (callable) instead.
+
+</details>
 
 ---
 
@@ -65,6 +107,13 @@ Ten questions. Lectures closed.
 - C) The Django version required.
 - D) The migrations that depend on this one.
 
+<details>
+<summary>Answer</summary>
+
+**A** — Dependencies must already be applied first.
+
+</details>
+
 ---
 
 **Q8.** Without `__str__`, the Django admin shows each row as:
@@ -73,6 +122,13 @@ Ten questions. Lectures closed.
 - B) "(no string representation)"
 - C) "Article object (1)" — i.e., class name + ID.
 - D) The first text field on the model.
+
+<details>
+<summary>Answer</summary>
+
+**C** — "Article object (1)" — the default `__repr__`-ish format.
+
+</details>
 
 ---
 
@@ -83,6 +139,13 @@ Ten questions. Lectures closed.
 - C) A second sort option.
 - D) Bulk action buttons.
 
+<details>
+<summary>Answer</summary>
+
+**B** — Sidebar filter dropdowns.
+
+</details>
+
 ---
 
 **Q10.** You set `related_name="articles"` on `Article.author = ForeignKey(User, ...)`. How do you get all articles for a user?
@@ -92,24 +155,13 @@ Ten questions. Lectures closed.
 - C) `Article.objects.filter(author=user)`
 - D) Either B or C.
 
----
-
-## Answer key
-
 <details>
-<summary>Reveal</summary>
+<summary>Answer</summary>
 
-1. **B** — `CharField` requires `max_length`. (It's also slightly different in SQL — varchar(N) vs TEXT — but the *requirement* is the discriminator.)
-2. **D** — `DecimalField` is the textbook answer; `IntegerField` storing cents is also defensible and avoids floating-point issues entirely. Never `FloatField`.
-3. **B** — Delete this row.
-4. **D** — 1 query to fetch articles + 100 to fetch each author = 101.
-5. **B** — `select_related` for FKs and one-to-ones; `prefetch_related` for M2M and reverse FKs.
-6. **B** — `timezone.now()` evaluates ONCE at class-definition time. Pass `timezone.now` (callable) instead.
-7. **A** — Dependencies must already be applied first.
-8. **C** — "Article object (1)" — the default `__repr__`-ish format.
-9. **B** — Sidebar filter dropdowns.
-10. **D** — Both work. `user.articles.all()` is more idiomatic.
+**D** — Both work. `user.articles.all()` is more idiomatic.
 
 </details>
 
 If 9+: ship the homework. 7-8: re-read the relevant lecture. <7: re-read Lecture 1 from the top.
+
+---

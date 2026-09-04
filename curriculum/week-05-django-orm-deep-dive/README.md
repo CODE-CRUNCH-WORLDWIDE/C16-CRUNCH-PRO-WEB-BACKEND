@@ -23,6 +23,14 @@ By the end of this week, you will be able to:
 - **Escape** to raw SQL when the ORM is in the way: `queryset.extra()` (legacy, avoid), `RawSQL`, `Model.objects.raw()`, and `connection.cursor()` — in increasing order of "you're on your own now."
 - **Measure** every query you write with `django.db.connection.queries`, `assertNumQueries`, and `django-debug-toolbar` — and refuse to merge any view whose query count grows with the page size.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `CS 4485` — Retrieve and shape related data efficiently through the data-access layer rather than in application code. |
+| Industry | Refuse to merge a view whose query count grows with the size of the page, and hold that line with a test that asserts the count instead of a comment asking the next person to be careful. |
+| Beyond the bar | Window functions and correlated subqueries written through the ORM — `Window`, `RowNumber`, `Lag`, `Subquery` with `OuterRef` — rather than dropped to hand-written SQL — `exercises/exercise-03-window-functions.md` |
+
 ## Prerequisites
 
 - **C16 Week 4 mini-project completed** — `crunchwriter` is on PostgreSQL 16 with at least 10 000 articles seeded; you have profiled one query end-to-end with `EXPLAIN ANALYZE`.

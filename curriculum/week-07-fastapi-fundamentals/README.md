@@ -33,6 +33,14 @@ By the end of this week, you will be able to:
 - **Choose** between FastAPI and Django REST Framework with reasons you can defend in code review: FastAPI for typed async APIs greenfield, DRF when the API is one surface of a larger Django project. The "and use both, talking to one database" pattern is what we are building.
 - **Read** the FastAPI source for a single function (`fastapi.routing.get_request_handler`) and locate, in that one function, the line that calls Pydantic to validate the body and the line that calls Pydantic to serialise the response. The framework is small; reading it once is part of the week.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `COP 4813` — Design and implement a documented HTTP/JSON API, with validated request and response contracts, that a second client can consume. |
+| Industry | Hand another team an API they can build against from the generated specification alone, and prove the contract holds with tests that cover the 201, the 422 and the 401. |
+| Beyond the bar | The learner opens the framework's own source and locates, inside one function, the line that validates the request body and the line that serialises the response — `lecture-notes/01-asgi-and-async-in-python-web.md` |
+
 ## Prerequisites
 
 - **C16 Week 1** — you can read HTTP. The OpenAPI document is a description of HTTP traffic; if `Content-Type: application/json` and the `Location` header on a 201 are unfamiliar, re-read Week 1 Lecture 1.

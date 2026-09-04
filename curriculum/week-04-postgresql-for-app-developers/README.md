@@ -22,6 +22,14 @@ By the end of this week, you will be able to:
 - **Build** full-text search with `tsvector`, `tsquery`, `to_tsvector('english', ...)`, generated columns, GIN indexes on tsvectors, and `ts_rank` for ordering.
 - **Identify** when the Django ORM is misleading you — `count()` that scans the full table, `Q(field__icontains=...)` that ignores a GIN index, `prefetch_related` issuing a query per page.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `COP 4813` — Design a relational schema, query it, and reason about indexing and query cost. |
+| Industry | Take a page that renders in nine seconds, profile the query behind it, add the right index, and put the before-and-after number in the pull request. |
+| Beyond the bar | A schema decision argued from measurements instead of taste — the same data modelled as `jsonb` and as real columns, both indexed, both timed, and the loser named — `challenges/challenge-01-jsonb-vs-real-columns.md` |
+
 ## Prerequisites
 
 - **C16 Week 3 mini-project completed** — `crunchwriter v1` is running locally with seed data; you can hit `/`, log in, and visit `/dashboard/`.

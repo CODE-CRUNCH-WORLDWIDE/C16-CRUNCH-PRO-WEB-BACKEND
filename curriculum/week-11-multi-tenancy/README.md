@@ -39,6 +39,14 @@ By the end of this week, you will be able to:
 - **Articulate** the noisy-neighbour mitigation toolkit: per-tenant connection-pool quotas (the `max_connections` Postgres setting divided by the tenant count, with headroom; per-tenant `pgbouncer` user limits), per-tenant rate limits (the token-bucket per tenant per endpoint), per-tenant cost-budget tracking (count CPU-seconds per tenant; alert when one tenant exceeds 30% of total), per-tenant work prioritisation (separate ARQ queues for free-tier versus paid-tier tenants).
 - **Pick** the right isolation model for the right tenant tier. The picker is not "always pool" or "always silo"; the picker is a matrix of tenant size, regulatory requirement, and operational budget. Free-tier tenants get pool. Mid-tier paying tenants get pool, with the option to migrate to bridge under contractual obligation. Enterprise tenants with a "data residency" or "single-tenant deployment" clause in their contract get silo. Cite the [AWS SaaS Lens tenant-tier guidance](https://docs.aws.amazon.com/whitepapers/latest/saas-architecture-fundamentals/tenant-isolation.html).
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | Past the outcome set: `SWE 432` teaches access control between one application's users. This week isolates entire customers from each other inside one database. |
+| Industry | Guarantee that one customer's request cannot read another customer's row, and prove it with a test rather than a promise made in code review. |
+| Beyond the bar | A running service with three planted isolation leaks: find them, reproduce each with a request, and close each with a test that fails against the unfixed code — `challenges/challenge-01-rls-leak-hunt.md` |
+
 ## Prerequisites
 
 - **C16 Weeks 7 through 10** — you have the FastAPI service with Pydantic v2 schemas, an `asyncpg` async DB session, Redis caching, an indexing pipeline, and a working search backend. The W11 work *replaces* the single-tenant assumption inside that service; it does not start from scratch.

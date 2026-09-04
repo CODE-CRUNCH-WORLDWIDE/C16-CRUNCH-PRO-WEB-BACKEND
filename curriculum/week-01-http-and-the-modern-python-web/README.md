@@ -18,6 +18,14 @@ By the end of this week, you will be able to:
 - **Build** a minimal HTTP server from scratch using only the standard library (`http.server`), and a second minimal HTTP server using a WSGI-compliant function with `wsgiref` — and explain why the second is more portable.
 - **Set up** a clean, reproducible Django project from a blank folder, by hand, *without* using `django-admin startproject`, so you understand exactly what every generated file does.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `COP 4813` — Explain the HTTP request/response cycle and the client–server architecture of the web, and construct a well-formed request and response directly. |
+| Industry | Debug a failing service by reading the actual bytes on the wire — issue the request with `curl -v` or `nc`, read the status line and headers that come back, and say which side is wrong before touching any code. |
+| Beyond the bar | The framework's own scaffolding is forbidden: the learner writes `manage.py`, `settings.py`, `wsgi.py` and `asgi.py` by hand, so nothing in the project is a file nobody read — `mini-project/README.md` |
+
 ## Prerequisites
 
 This week assumes you have completed **C1 weeks 1–11**, or have equivalent skill. Specifically:

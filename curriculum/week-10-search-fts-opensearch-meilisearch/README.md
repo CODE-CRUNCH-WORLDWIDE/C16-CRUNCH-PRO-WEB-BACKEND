@@ -34,6 +34,14 @@ By the end of this week, you will be able to:
 - **Choose** the right backend for the right workload. The pickers are not "which is fastest" (all three are fast on small corpora). The pickers are: corpus size (Postgres FTS is comfortable through ~10 million rows on a well-indexed `tsvector`; OpenSearch starts paying off above ~50 million; Meilisearch is bounded by RAM and starts straining around 1–10 million depending on document size); relevance ceiling (Meilisearch's typo tolerance is hard to match; OpenSearch's BM25 plus custom scoring is the most tunable; Postgres FTS is the most predictable but the least configurable); operational cost (Postgres FTS is free — you already have Postgres; OpenSearch is a separate service with its own monitoring; Meilisearch is a separate service but smaller).
 - **Measure** the precision of each backend on a fixed query set. Write 50 queries with hand-labelled expected results (`{"query": "python async generators", "expected_ids": [42, 117, 203, 891, 944]}`). For each query, run it against each backend; compute precision-at-5 (how many of the top-5 returned IDs are in the expected set). Report per-backend p@5; defend the choice with the numbers.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | Past the outcome set: `COP 4813` stops at querying the database. This week puts three production search backends behind one endpoint and scores them. |
+| Industry | Choose a search backend for a real corpus and defend the choice with a relevance number and a latency number, not a preference. |
+| Beyond the bar | Fifty hand-labelled queries scored precision-at-5 against Postgres full-text search, OpenSearch and Meilisearch in a single harness — `challenges/challenge-01-three-backend-relevance-harness.md` |
+
 ## Prerequisites
 
 - **C16 Week 8 and Week 9** — you have a FastAPI service with Pydantic v2 schemas, an `asyncpg` or async-SQLAlchemy session, ARQ workers, and a Redis cache. The Pub/Sub plumbing from Week 8 carries over directly to Week 10's index-update pipeline.

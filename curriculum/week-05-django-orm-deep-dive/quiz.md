@@ -11,6 +11,13 @@ Ten questions. Lectures closed.
 - C) `Article.objects.annotate(author=F("author"))`
 - D) `Article.objects.values("author")`
 
+<details>
+<summary>Answer</summary>
+
+**B** — `select_related` is the JOIN-based prefetch for forward `FK` / `O2O`; one query.
+
+</details>
+
 ---
 
 **Q2.** You write `Author.objects.annotate(article_count=Count("articles"), comment_count=Count("comments"))`. For an author with 3 articles and 4 comments, what does the ORM report?
@@ -19,6 +26,13 @@ Ten questions. Lectures closed.
 - B) `article_count = 12`, `comment_count = 12`
 - C) `article_count = 7`, `comment_count = 7`
 - D) `article_count = 3`, `comment_count = 4` only if you add `.distinct()`
+
+<details>
+<summary>Answer</summary>
+
+**B** — Multiplication trap. The join `author × articles × comments` produces 3×4 = 12 rows; each `Count` over-counts by the other side's cardinality. The fix is `distinct=True` or `Subquery`.
+
+</details>
 
 ---
 
@@ -29,6 +43,13 @@ Ten questions. Lectures closed.
 - C) Be wrapped in `transaction.atomic()`.
 - D) Have a `GROUP BY`.
 
+<details>
+<summary>Answer</summary>
+
+**B** — Scalar `Subquery` requires `.values("col")[:1]`. Without `.values()`, you cannot project a single column; without `[:1]`, Postgres errors with "more than one row".
+
+</details>
+
 ---
 
 **Q4.** `Exists` is preferable to `Count("...") > 0` because:
@@ -37,6 +58,13 @@ Ten questions. Lectures closed.
 - B) Postgres short-circuits `EXISTS` on the first matching row; `COUNT(*)` reads every row to compute the count.
 - C) `Count` is deprecated.
 - D) `Exists` returns the matching rows; `Count` returns an integer.
+
+<details>
+<summary>Answer</summary>
+
+**B** — `EXISTS` short-circuits at the first matching row; `COUNT(*)` reads every match. On large tables the gap is 100×.
+
+</details>
 
 ---
 
@@ -47,6 +75,13 @@ Ten questions. Lectures closed.
 - C) Filters the queryset to the top-ranked article per category.
 - D) Raises an error unless `frame=` is specified.
 
+<details>
+<summary>Answer</summary>
+
+**B** — Window functions compute per-row values across a partition without reducing the queryset. Every article in the result carries its rank.
+
+</details>
+
 ---
 
 **Q6.** Which one of these statements is **race-free** without an explicit lock?
@@ -55,6 +90,13 @@ Ten questions. Lectures closed.
 - B) `Article.objects.filter(pk=42).update(view_count=F("view_count") + 1)`
 - C) `Article.objects.filter(pk=42).update(view_count=42)`
 - D) `a = Article.objects.get(pk=42); a.view_count = a.view_count + 1; a.save()`
+
+<details>
+<summary>Answer</summary>
+
+**B** — `F("view_count") + 1` translates to `SET view_count = view_count + 1` in SQL, read-modified-written atomically by Postgres. A and D have the read-then-Python-add race.
+
+</details>
 
 ---
 
@@ -65,6 +107,13 @@ Ten questions. Lectures closed.
 - C) Safety — querysets cannot be modified, functions can.
 - D) Backward compatibility with Django 2.x.
 
+<details>
+<summary>Answer</summary>
+
+**B** — Chainability. Querysets compose; helpers do not.
+
+</details>
+
 ---
 
 **Q8.** Inside `bulk_create(objects)`:
@@ -73,6 +122,13 @@ Ten questions. Lectures closed.
 - B) Signals do **not** fire. Database-level constraints still apply.
 - C) Each instance is saved one at a time in a single transaction.
 - D) The function returns nothing and never sets the primary key on the instances.
+
+<details>
+<summary>Answer</summary>
+
+**B** — `bulk_create` skips per-instance signals. Postgres returns IDs via `RETURNING` (Django 4+), so PKs **are** populated on Postgres — D is wrong on the PK clause.
+
+</details>
 
 ---
 
@@ -83,6 +139,13 @@ Ten questions. Lectures closed.
 - C) `annotate(score=Window(Sum("view_count")))`
 - D) `aggregate(score=Sum("view_count"))`
 
+<details>
+<summary>Answer</summary>
+
+**A** — `Case` / `When` is the right expression for an `IF/THEN/ELSE` column. `Subquery` works but is overkill.
+
+</details>
+
 ---
 
 **Q10.** You add `.assertNumQueries(2)` to a test of a list view. The test fails with "expected 2, got 22". The single most likely cause is:
@@ -92,24 +155,13 @@ Ten questions. Lectures closed.
 - C) The test is flaky and you should retry.
 - D) `assertNumQueries` itself runs 20 extra queries to count.
 
----
-
-## Answer key
-
 <details>
-<summary>Reveal</summary>
+<summary>Answer</summary>
 
-1. **B** — `select_related` is the JOIN-based prefetch for forward `FK` / `O2O`; one query.
-2. **B** — Multiplication trap. The join `author × articles × comments` produces 3×4 = 12 rows; each `Count` over-counts by the other side's cardinality. The fix is `distinct=True` or `Subquery`.
-3. **B** — Scalar `Subquery` requires `.values("col")[:1]`. Without `.values()`, you cannot project a single column; without `[:1]`, Postgres errors with "more than one row".
-4. **B** — `EXISTS` short-circuits at the first matching row; `COUNT(*)` reads every match. On large tables the gap is 100×.
-5. **B** — Window functions compute per-row values across a partition without reducing the queryset. Every article in the result carries its rank.
-6. **B** — `F("view_count") + 1` translates to `SET view_count = view_count + 1` in SQL, read-modified-written atomically by Postgres. A and D have the read-then-Python-add race.
-7. **B** — Chainability. Querysets compose; helpers do not.
-8. **B** — `bulk_create` skips per-instance signals. Postgres returns IDs via `RETURNING` (Django 4+), so PKs **are** populated on Postgres — D is wrong on the PK clause.
-9. **A** — `Case` / `When` is the right expression for an `IF/THEN/ELSE` column. `Subquery` works but is overkill.
-10. **A** — N+1. The template traverses `article.author`, and without `select_related`, each row triggers a query for the author. 20 articles × 1 query for author = 20 extra + 2 original = 22.
+**A** — N+1. The template traverses `article.author`, and without `select_related`, each row triggers a query for the author. 20 articles × 1 query for author = 20 extra + 2 original = 22.
 
 </details>
 
 If 9+: ship the homework. 7–8: re-read Lecture 1 sections 2-3 and Lecture 2 section 5. <7: re-read Lectures 1 and 2 from the top before homework.
+
+---

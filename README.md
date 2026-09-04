@@ -23,6 +23,64 @@ This is the senior-engineer track for Python on the web. It assumes you have com
 
 ---
 
+## Standards & equivalency
+
+> C16 stands in for a university's server-side web programming course.
+
+**University equivalent.** Server-Side Web Programming — `COP 4813`, `CS 4485`, `SWE 432`. Coverage: full.
+
+C16 carries no credit, no transcript entry, no accreditation and no proctored exam. The equivalence is one of **content and skill**: everything an accredited section of that course teaches, taught here at the same depth or deeper, and assessed. What a registrar records is not something an open repository can give you.
+
+| University outcome | Where this course teaches it | Depth |
+| --- | --- | --- |
+| Explain the HTTP request/response cycle and the client–server architecture of the web, and construct a request and a response directly | [Week 01](curriculum/week-01-http-and-the-modern-python-web/) | deeper |
+| Build a server-side application on a web framework: URL routing, view code, server-rendered templates | [Week 03](curriculum/week-03-views-templates-forms-auth/) | same |
+| Model application data, persist it through a data-access layer, and evolve the schema with migrations | [Week 02](curriculum/week-02-django-models-orm-admin/) | same |
+| Design a relational schema, query it, and reason about indexing and query cost | [Week 04](curriculum/week-04-postgresql-for-app-developers/) | deeper |
+| Retrieve and shape related data efficiently through the data-access layer instead of in application code | [Week 05](curriculum/week-05-django-orm-deep-dive/) | deeper |
+| Implement user authentication, session management and access control, and defend the application against common web attacks | [Week 03](curriculum/week-03-views-templates-forms-auth/) | same |
+| Design and implement a documented HTTP/JSON API that a second client can consume | [Week 07](curriculum/week-07-fastapi-fundamentals/) | deeper |
+| Validate inbound data and serialise outbound data against a declared contract | [Week 07](curriculum/week-07-fastapi-fundamentals/) | deeper |
+| Move long-running work out of the request/response cycle, and schedule recurring work | [Week 06](curriculum/week-06-migrations-jobs-caching/) | deeper |
+| Implement server-push communication between browser and server | [Week 08](curriculum/week-08-websockets-sse-and-background-jobs/) | deeper |
+| Apply caching and other performance techniques to a server application, and measure the result | [Week 09](curriculum/week-09-caching-with-redis/) | deeper |
+| Test a server-side application, including tests that exercise the database and the HTTP layer | [Week 07](curriculum/week-07-fastapi-fundamentals/) | same |
+| Deploy a server-side application to a production-like environment and operate it | [Week 12](curriculum/week-12-capstone-production-backend/) | same |
+| Complete and defend a substantial server-side application project | [Week 12](curriculum/week-12-capstone-production-backend/) | same |
+
+Every row above points at a week that **assigns work** on that outcome — an exercise, a challenge, homework, a quiz item or the week's mini-project — not merely a week that mentions it.
+
+**The industry bar.** What an employer expects of somebody paid to run a Python web service, and where this course makes the learner do it. Two rows below say plainly where C16 does less than the bar asks.
+
+| What the job expects | Where this course does it |
+| --- | --- |
+| Work lands as a commit in a repository the learner owns, not a file on a desktop | Week 01's acceptance list requires a public repository, a `.gitignore` and a README a stranger can follow — [`curriculum/week-01-http-and-the-modern-python-web/mini-project/README.md`](curriculum/week-01-http-and-the-modern-python-web/mini-project/README.md); every later mini-project builds on that repository |
+| You read code you did not write and form a judgement on it | Week 02 sends the learner into a running open-source Django project to locate and fix an N+1 — [`curriculum/week-02-django-models-orm-admin/challenges/challenge-01-spot-the-n-plus-1.md`](curriculum/week-02-django-models-orm-admin/challenges/challenge-01-spot-the-n-plus-1.md); Week 11 hands over a service carrying three planted tenant-isolation bugs — [`curriculum/week-11-multi-tenancy/challenges/challenge-01-rls-leak-hunt.md`](curriculum/week-11-multi-tenancy/challenges/challenge-01-rls-leak-hunt.md) |
+| Tests exist, and the command to run them is written down | `python manage.py test` in Week 01's acceptance list; `pytest -q` over `httpx.AsyncClient` in [`curriculum/week-07-fastapi-fundamentals/mini-project/README.md`](curriculum/week-07-fastapi-fundamentals/mini-project/README.md); `assertNumQueries(1)` on every panel of [`curriculum/week-05-django-orm-deep-dive/mini-project/README.md`](curriculum/week-05-django-orm-deep-dive/mini-project/README.md) |
+| A performance claim is backed by a measured number, not an assertion | Week 04 ships a before/after `EXPLAIN ANALYZE` write-up with the index migration — [`curriculum/week-04-postgresql-for-app-developers/mini-project/README.md`](curriculum/week-04-postgresql-for-app-developers/mini-project/README.md); Week 09 requires a load-test baseline and a `BENCHMARK.md` — [`curriculum/week-09-caching-with-redis/mini-project/README.md`](curriculum/week-09-caching-with-redis/mini-project/README.md) |
+| Dependencies are isolated per project and pinned | Week 01's mini-project rules require a virtual environment and a pinned `pyproject.toml` or `requirements.txt`; Week 07 pins every test dependency to an exact minor version |
+| A pipeline runs the work on every push | Week 12's deploy lecture writes out both workflows — tests on every push, deploy only on green — and wires the deploy token as a secret: [`curriculum/week-12-capstone-production-backend/lecture-notes/02-deploy-to-a-free-tier.md`](curriculum/week-12-capstone-production-backend/lecture-notes/02-deploy-to-a-free-tier.md). It is one section of one lecture in the final week, not a unit of its own, and Week 06's forward reference to CI "in Week 11" does not land — Week 11 is multi-tenancy. |
+| Failure is read from real output rather than guessed at | Partly. Week 07's worked solutions quote a real FastAPI 422 response body field by field, and Week 04 works from real query plans throughout. C16 carries no `Common bugs to catch` section and no captured tracebacks; the error text it does quote is protocol and validation output, not exceptions. |
+| The service is operated, not only written — deploy, roll back, rotate a secret, evict a tenant | Week 12 requires each of those four as a section of `docs/runbook.md`, exercised against the live service — [`curriculum/week-12-capstone-production-backend/README.md`](curriculum/week-12-capstone-production-backend/README.md) |
+| It runs from a clean clone by following the README | Graded explicitly in Week 01 ("`runserver`, `check`, `test` all clean on a fresh clone") and again in [`curriculum/week-03-views-templates-forms-auth/mini-project/README.md`](curriculum/week-03-views-templates-forms-auth/mini-project/README.md) |
+
+**Beyond both bars.** Clearing the two floors is entry, not success. Open any of these and check in under a minute.
+
+| What we add | Which bar it beats | Where it lives |
+| --- | --- | --- |
+| Week 01 forbids the framework's own scaffolding: the learner writes `manage.py`, `settings.py`, `wsgi.py` and `asgi.py` by hand, after reading a raw HTTP/1.1 exchange off a socket with `nc` | both | [`curriculum/week-01-http-and-the-modern-python-web/mini-project/README.md`](curriculum/week-01-http-and-the-modern-python-web/mini-project/README.md) |
+| Every week's quiz publishes its answer key in the same file as the questions — nothing withheld until a deadline | both | [`curriculum/week-09-caching-with-redis/quiz.md`](curriculum/week-09-caching-with-redis/quiz.md) |
+| Worked, explained solutions to the week's exercises, published beside them rather than after a submission window | both | [`curriculum/week-07-fastapi-fundamentals/exercises/SOLUTIONS.md`](curriculum/week-07-fastapi-fundamentals/exercises/SOLUTIONS.md) |
+| Two frameworks against one database, with the boundary written down and defended — Django owns the admin and the migrations, FastAPI owns the typed async API | both | [`curriculum/week-12-capstone-production-backend/lecture-notes/01-the-capstone-architecture.md`](curriculum/week-12-capstone-production-backend/lecture-notes/01-the-capstone-architecture.md) |
+| Three search backends measured against each other on fifty hand-labelled queries, with precision-at-5 reported per backend and the choice defended on the numbers | university | [`curriculum/week-10-search-fts-opensearch-meilisearch/challenges/challenge-01-three-backend-relevance-harness.md`](curriculum/week-10-search-fts-opensearch-meilisearch/challenges/challenge-01-three-backend-relevance-harness.md) |
+| Tenant isolation enforced in the database with `FORCE ROW LEVEL SECURITY`, then attacked: three planted leaks to find, reproduce with a request, and close with a test that fails before the fix | both | [`curriculum/week-11-multi-tenancy/challenges/challenge-01-rls-leak-hunt.md`](curriculum/week-11-multi-tenancy/challenges/challenge-01-rls-leak-hunt.md) |
+| Two job runners implemented on the same workload and benchmarked head to head, with a written defence of the choice a reviewer could disagree with on the merits | industry | [`curriculum/week-08-websockets-sse-and-background-jobs/challenges/challenge-02-celery-vs-arq-on-a-real-task.md`](curriculum/week-08-websockets-sse-and-background-jobs/challenges/challenge-02-celery-vs-arq-on-a-real-task.md) |
+| The learner ends holding a running service on a public URL and a runbook for operating it, not a grade only a registrar can see | both | [`curriculum/week-12-capstone-production-backend/lecture-notes/02-deploy-to-a-free-tier.md`](curriculum/week-12-capstone-production-backend/lecture-notes/02-deploy-to-a-free-tier.md) |
+
+**Gaps we declare.** None against the server-side web programming outcome set — every outcome above maps to a week that assigns work on it. Four honest shortfalls sit outside that set and are recorded here rather than left to be discovered: weeks 01–06 ship no worked exercise solutions and say so on their exercise index, so the published-answer guarantee holds for the quizzes everywhere but for the exercises only from Week 07 on; C16 carries no `Under the hood` blocks, so the depth sits inline where a reader must pass through it rather than folded away; it carries no `Common bugs to catch` sections quoting captured exception text; and continuous integration is one section of Week 12's deploy lecture rather than a unit of its own. C16 also does not teach browser-side code — it renders server-side HTML and serves JSON, and points at C8 for the client — and it does not teach container orchestration or infrastructure-as-code, which belong to C15.
+
+---
+
 ## Prerequisites
 
 You should have completed, or be able to do everything in, **C1 · Code Crunch Convos** weeks 1–11. Specifically you need:

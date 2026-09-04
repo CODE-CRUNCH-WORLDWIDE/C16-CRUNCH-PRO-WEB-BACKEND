@@ -21,6 +21,14 @@ By the end of this week, you will be able to:
 - **Route** URLs cleanly with `path()`, `include()`, named URLs, and reverse with `{% url %}` / `reverse()` / `reverse_lazy()`.
 - **Read** the request/response cycle for an authenticated form POST end-to-end and identify each middleware that touched it.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `SWE 432` — Build a server-side application on a web framework — routing, view code, server-rendered templates, form validation — and implement authentication, sessions and access control, defending the application against CSRF. |
+| Industry | Stand up the authenticated surface a real person uses: a login, a dashboard nobody else can reach, and a form that rejects bad input with a message rather than a stack trace. |
+| Beyond the bar | The learner writes their own permission decorator rather than reaching for the one the framework ships, and can say what `login_required` is doing because they rebuilt it — `challenges/challenge-01-custom-permission-decorator.md` |
+
 ## Prerequisites
 
 - **C16 Week 2 mini-project completed** — `crunchwriter` v0 running with `Author`, `Article`, `Category` models and a working admin.

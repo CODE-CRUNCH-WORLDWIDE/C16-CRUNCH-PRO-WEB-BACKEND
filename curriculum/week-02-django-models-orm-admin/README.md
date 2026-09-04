@@ -19,6 +19,14 @@ By the end of this week, you will be able to:
 - **Create** a superuser, log into the admin, and edit data through it.
 - **Write** a model `__str__` that's useful in the admin and shell.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `CS 4485` — Model application data, persist it through a data-access layer, and evolve the schema with generated migrations. |
+| Industry | Ship a data model an editorial team can work in on its first day, and catch the N+1 query it produces before the page reaches production. |
+| Beyond the bar | Every generated migration is read back as the SQL it will actually run, with `python manage.py sqlmigrate`, instead of being trusted — `homework.md` |
+
 ## Prerequisites
 
 - **C16 Week 1 mini-project completed** — a Django project built by hand, running on `python manage.py runserver`.

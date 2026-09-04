@@ -28,6 +28,14 @@ By the end of this week, you will be able to:
 - **Choose** between Django 5 async views (`async def`) and Celery for offloading work. The first is the right answer for I/O-bound work measured in seconds; the second is the right answer for work that must survive a process restart.
 - **Reverse** any of the above when production breaks: roll back a migration, invalidate a cache key, revoke a stuck task, drain a worker queue.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `SWE 432` — Move long-running work out of the request/response cycle, and schedule recurring work to run without a request at all. |
+| Industry | Change the schema of a service that is serving traffic, without taking it down — and write the reverse operation before the forward one is deployed. |
+| Beyond the bar | The rename-without-downtime sequence written out deploy by deploy, including `SeparateDatabaseAndState` for the case the auto-generated migration gets wrong — `lecture-notes/01-real-world-migrations.md` |
+
 ## Prerequisites
 
 - **C16 Week 5 mini-project completed** — `crunchwriter` has the four-panel analytics dashboard, each panel emits one SQL query, each panel is covered by `assertNumQueries(1)`. If you skipped the dashboard, the caching exercises will not connect to anything.

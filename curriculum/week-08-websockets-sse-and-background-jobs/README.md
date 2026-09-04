@@ -36,6 +36,14 @@ By the end of this week, you will be able to:
 - **Test** all three surfaces: `TestClient.websocket_connect` for the WS endpoint; `httpx.AsyncClient.stream("GET", url)` for the SSE endpoint; `arq.worker.Worker.run_check` for a one-shot, in-process ARQ run that lets you assert against the task's return value.
 - **Defend** the trade-off in code review: "We picked ARQ over Celery because the service is small, async-native, and Redis-only. If the operator profile changes — broker pluralism, scheduled tasks, dead-letter queues — Celery's surface area is justified. Until then, ARQ's ~1 500 lines of source are something we can read."
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `SWE 432` — Implement server-push communication between browser and server, and offload work to a background worker outside the request. |
+| Industry | Run a feature that spans three processes — the API, the worker and the broker — and keep it correct across a worker restart, with the job re-queued rather than lost. |
+| Beyond the bar | The WebSocket opening handshake reproduced byte by byte against RFC 6455, including what the server actually does with `Sec-WebSocket-Key` — `lecture-notes/01-websockets-the-protocol-and-the-handler.md` |
+
 ## Prerequisites
 
 - **C16 Week 7** — you have a running FastAPI service with Pydantic v2 schemas, a dependency-injected database session, and an integration test suite over `httpx.AsyncClient`. This week extends that service; it does not replace it.

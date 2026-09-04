@@ -32,6 +32,14 @@ By the end of this week, you will be able to:
 - **Measure** the impact. Run `ab -n 1000 -c 50 http://localhost:8000/articles/popular` before and after caching; record p50, p95, p99, and requests-per-second; record the database query count via Django Debug Toolbar (or FastAPI's SQLAlchemy logger). Reproduce the numbers in your homework. We use both **ab** (Apache Bench, ships with Apache httpd's binaries) and **hey** (a Go-based modern equivalent, `brew install hey` or `apt install hey`) because each has quirks the other does not — `ab` reports its percentiles bluntly; `hey` draws a histogram you can read at a glance.
 - **Defend** the trade-off in code review: "We cache the article list with TTL 60 s and event-driven invalidation on publish; we cache the per-article render with tag-based invalidation under tags `article:{id}`, `author:{id}`. We use `allkeys-lru` because 90% of our keys are cache and we are happy for the lock keys to be evicted under memory pressure. The stampede mitigation is probabilistic early expiration with `beta=1.0` per Vattani 2015."
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `CS 4485` — Apply caching to a server-side application and measure its effect on response time. |
+| Industry | Cut a p95 latency with a cache, and still be able to say, when the data goes stale, exactly which key was wrong and whose write was supposed to delete it. |
+| Beyond the bar | The cache stampede reproduced as a failure rather than described as a risk — a thousand concurrent misses on one expired key, then the request-coalescing and probabilistic-early-refresh fixes written out — `lecture-notes/03-the-cache-stampede-and-redis-sessions.md` |
+
 ## Prerequisites
 
 - **C16 Week 7 and Week 8** — you have a FastAPI service with Pydantic v2 schemas, a SQLAlchemy / async-SQL session, and an ARQ worker pool. The Pub/Sub plumbing from Week 8 carries over directly to Week 9's invalidation work.

@@ -33,6 +33,14 @@ By the end of this week, you will be able to:
 - **Defend** the architectural choices in a written document. Why FastAPI for the public API and Django for the admin (the FastAPI async story is the right tool for the WebSocket; the Django admin is forty staff-hours of free dashboard). Why shared-schema multi-tenancy and not database-per-tenant (the customer mix is small-to-medium; the cost of per-tenant databases is a full-time DBA we do not have). Why Postgres FTS and not Elasticsearch (one fewer service to operate; the FTS quality is good enough for the corpus size). Why Redis and not Memcached (Redis has pub/sub; Memcached does not; the WebSocket backplane needs pub/sub). Cite the docs at every claim.
 - **Reflect** on the twelve-week arc. The artefact you ship in Week 12 is the artefact you could not have built in Week 1, in Week 6, even in Week 11 — because the integration *is* the skill. Write the reflection. Submit the reflection. Read it again in twelve months when you are deciding whether to take the C17 advanced track or to ship your own SaaS.
 
+## Standards this week meets
+
+| Bar | What this week is measured against |
+| --- | --- |
+| University | `CS 4485` — Complete, deploy and defend a substantial server-side application project. |
+| Industry | Operate what you built: deploy without downtime, roll the deploy back, rotate the database password without dropping connections, and evict a tenant — each one a section of the runbook, each one exercised against the live service. |
+| Beyond the bar | Continuous deployment wired so that only a green test run ships, alongside the written runbook for rollback, secret rotation and eviction — `lecture-notes/02-deploy-to-a-free-tier.md` |
+
 ## Topics covered
 
 - The capstone architecture: Django for the admin, FastAPI for the public API, asyncpg for the async DB layer, Redis for caching and pub/sub, Postgres for storage and search
